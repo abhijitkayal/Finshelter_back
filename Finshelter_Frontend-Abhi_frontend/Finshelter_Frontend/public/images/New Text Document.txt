@@ -1,0 +1,107 @@
+.tax-section7-left {
+	/* border: 1px solid black; */
+	
+
+	/* flex: 1.5; */
+	h1 {
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 49px;
+		min-width: 400px;
+		color: var(--primary);
+		position: relative;
+	}
+	h1::before {
+		content: "";
+		position: absolute;
+		left: -19px;
+		top: -25px;
+		bottom: 0;
+		width: 6px; /* Thickness of the line */
+		background-color: var(--accent); /* Color of the line */
+		margin-top: 4px;
+	}
+}
+.tax7-img {
+	
+	
+}
+.tax7-img2 {
+	
+	
+}
+.tax7-center {
+	padding: 0px 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	flex: 1;
+	/* margin-top: 10px; */
+}
+.tax7-list {
+	/* border: 1px solid black; */
+	/* padding: 10px 30px; */
+	display: flex;
+	flex-direction: column;
+	p {
+		margin: 10px 0px;
+	}
+	button {
+		width: 60%;
+	}
+}
+
+.tax-7list-con {
+	display: flex;
+	margin-bottom: 20px;
+	gap: 23px;
+}
+.tax-7list-con ul {
+	/* border: 1px solid black; */
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	justify-content: space-between;
+	padding: 2px;
+	margin-top: 20px;
+	gap: 15px;
+	flex-wrap: wrap;
+
+	li {
+		/* min-width: 250px; */
+		list-style: none;
+	}
+	i {
+		margin-right: 5px;
+		color: var(--accent);
+	}
+}
+
+.tax-section7-head {
+	p {
+		max-width: 540px;
+		font-size: 14px;
+		color: white;
+	}
+}
+
+.tax-section7-right {
+	padding-top: 10px;
+	display: flex;
+	/* flex: 1; */
+}
+
+.tax-form-btn {
+	background-color: var(--primary);
+
+	padding: 15px;
+	border: none;
+	outline: none;
+	border-radius: 10px;
+	color: white;
+	font-size: 17px;
+	&:hover {
+		background-color: var(--accent);
+		cursor: pointer;
+	}
+}

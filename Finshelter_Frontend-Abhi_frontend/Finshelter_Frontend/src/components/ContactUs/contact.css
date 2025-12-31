@@ -1,0 +1,247 @@
+/* Contact Us Page Styles */
+
+.contact-page {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animation classes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(140, 198, 63, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(140, 198, 63, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(140, 198, 63, 0.5);
+  }
+}
+
+/* Fixed tabs styling */
+.fixed-tabs {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  right: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.active-spacer {
+  display: block !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .contact-card-container {
+    margin-bottom: 20px;
+  }
+  
+  .contact-page .MuiContainer-root {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    padding: 20px;
+  }
+  
+  .contact-page .MuiTypography-h2 {
+    font-size: 1.8rem;
+  }
+  
+  .contact-page .MuiTypography-h3 {
+    font-size: 1.5rem;
+  }
+  
+  .contact-page .MuiTypography-h5 {
+    font-size: 1.2rem;
+  }
+  
+  .contact-page .MuiTypography-body1 {
+    font-size: 0.95rem;
+  }
+  
+  .contact-page .MuiIconButton-root {
+    padding: 8px;
+  }
+  
+  .contact-page .MuiCard-root {
+    margin-bottom: 20px;
+  }
+  
+  .contact-page .MuiCardContent-root {
+    padding: 16px;
+  }
+  
+  /* Adjust icon circle size on mobile */
+  .contact-page .MuiBox-root [class*="IconCircle"] {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .contact-page .MuiBox-root [class*="IconCircle"] svg {
+    font-size: 28px;
+  }
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 480px) {
+  .contact-page .MuiButton-root {
+    min-height: 48px;
+    width: 100%;
+  }
+  
+  .contact-page .MuiInputBase-root {
+    min-height: 48px;
+  }
+  
+  .contact-page .MuiInputLabel-root {
+    font-size: 0.9rem;
+  }
+  
+  .contact-page .MuiSelect-select {
+    padding: 12px 14px;
+  }
+  
+  /* Improve spacing between form elements */
+  .contact-page .MuiGrid-container .MuiGrid-item {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  
+  /* Hero section mobile adjustments */
+  .contact-page [class*="hero-section"] {
+    padding-top: 80px;
+    padding-bottom: 30px;
+  }
+}
+
+/* Custom styling for form elements focus states */
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #1b321d !important;
+  border-width: 2px;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: #1b321d !important;
+}
+
+/* Add animation to contact cards on hover */
+.animated-card:hover {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Add shimmer effect to buttons */
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.shimmer-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Map container hover effects */
+.map-hover:hover {
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+}
+
+/* Spinning icon animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-hover:hover {
+  animation: spin 1s ease-in-out;
+}
+
+/* Enhanced touchable areas for mobile */
+@media (max-width: 768px) {
+  .contact-page a,
+  .contact-page button,
+  .contact-page [role="button"] {
+    padding: 12px !important;
+    margin: 8px 0 !important;
+  }
+  
+  /* Center align text on mobile */
+  .contact-page .MuiBox-root {
+    text-align: center;
+  }
+  
+  /* Force left alignment for form inputs on mobile */
+  .contact-page .MuiFormControl-root,
+  .contact-page .MuiTextField-root {
+    text-align: left;
+  }
+  
+  /* Reduce padding for card content on mobile */
+  .contact-page .MuiCardContent-root {
+    padding: 16px !important;
+  }
+  
+  /* Ensure form submit button is full width on mobile */
+  .contact-page form .MuiButton-root {
+    width: 100%;
+    margin-top: 16px;
+  }
+}

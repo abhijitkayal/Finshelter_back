@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+Finshelter_Frontend/node_modules/
+Finshelter-Backend/tax-backend-main/node_modules/
+
+# Production builds
+Finshelter_Frontend/dist/
+Finshelter_Frontend/build/
+
+# Environment variables
+.env
+.env.local
+.env.production
+Finshelter-Backend/tax-backend-main/.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads folder (contains user uploaded files)
+Finshelter-Backend/tax-backend-main/uploads/
+
+# Package lock files (optional - comment out if you want to include them)
+# package-lock.json

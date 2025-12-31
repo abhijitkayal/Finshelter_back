@@ -1,0 +1,194 @@
+#tax-section3 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--primary);
+	background-color: var(--background);
+	padding: 70px 60px 70px 0px;
+}
+
+#tax-section3 h1 {
+	font-size: 43px;
+	color: var(--primary);
+}
+
+.tax-section3-wrap {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	align-items: stretch;
+	justify-content: center;
+	padding: 50px 60px 50px 20px;
+	gap: 35px;
+	max-width: 1400px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.tax-section3-card {
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+	width: 100%;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 30px;
+	transition: all 0.3s ease;
+	overflow: hidden;
+}
+
+.tax-section3-card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.tax-section3-card img {
+	width: 185px;
+	object-fit: cover;
+	border-top-left-radius: 30px;
+	border-bottom-left-radius: 30px;
+}
+
+/* CARD TEXT SECTION */
+.tax3-card-desc {
+	padding: 40px 20px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: var(--secondary);
+	border-top-right-radius: 30px;
+	border-bottom-right-radius: 30px;
+}
+
+.tax3-card-desc p {
+	color: var(--primary);
+	transition: max-height 0.5s ease;
+	overflow: hidden;
+}
+
+p.collapsed {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	max-height: 4.5em;
+}
+
+p.expanded {
+	max-height: 1000px;
+}
+
+/* BUTTON */
+.read-more-btn { 
+	text-decoration: none; 
+	color: var(--secondary); 
+	background-color: var(--primary); 
+	padding: 13px 30px; 
+	border-radius: 10px; 
+	border: 2px solid var(--primary); 
+	transition: all 0.3s ease; 
+	cursor: pointer; 
+	font-family: inherit; 
+	font-size: inherit; 
+	display: flex; 
+	align-items: center; 
+	justify-content: center;
+	margin-top: 10px; 
+	i { 
+	color: var(--secondary); 
+	margin-left: 5px; 
+	transition: all 0.3s ease; }
+	&:hover { color: var(--primary);
+	background-color: var(--secondary); 
+	i { color: var(--primary); transform: translateX(10px); } &:nth-child(i) { transform: translateY(-10px); }  } }
+
+/* .read-more-btn:hover {
+	background: var(--secondary);
+	color: var(--primary);
+}
+
+.read-more-btn i {
+	margin-left: 6px;
+} */
+
+/* ==========================
+   NEW SLIDE ANIMATIONS
+========================== */
+
+/* Slide from left */
+[data-aos="slide-left"] {
+	opacity: 0;
+	transform: translateX(-120px);
+	transition-property: opacity, transform;
+	transition: transform 1.6s ease-out, opacity 1.6s ease-out;
+}
+
+[data-aos="slide-left"].aos-animate {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Slide from right */
+[data-aos="slide-right"] {
+	opacity: 0;
+	transform: translateX(120px);
+	transition-property: opacity, transform;
+}
+
+[data-aos="slide-right"].aos-animate {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Mobile View */
+@media only screen and (max-width: 768px) {
+	#tax-section3 {
+		padding: 40px 0;
+	}
+
+	.tax-section3-wrap {
+		grid-template-columns: 1fr;
+		padding: 20px 10px;
+		gap: 20px;
+	}
+
+	.tax-section3-card {
+		flex-direction: column;
+		max-width: 90%;
+		margin: auto;
+	}
+
+	.tax-section3-card img {
+		width: 100%;
+		height: 200px;
+		border-radius: 30px 30px 0 0;
+	}
+
+	.tax3-card-desc {
+		text-align: center;
+		border-radius: 0 0 30px 30px;
+	}
+
+	/* MOBILE SLIDE FROM BOTTOM */
+	[data-aos="slide-left"],
+	[data-aos="slide-right"] {
+		transform: translateY(80px);
+	}
+
+	[data-aos="slide-left"].aos-animate,
+	[data-aos="slide-right"].aos-animate {
+		transform: translateY(0);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

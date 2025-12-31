@@ -1,0 +1,38 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* :root {
+  --primary: #14305d;
+ 
+  --secondary: #ffffff;
+  --tertiary: #202020;
+  --fourth: #1f4959;
+  --accent:#99a8af;
+  --sixth:#242424;
+ 
+} */
+
+:root {
+	--primary: #1b321d;
+
+	--secondary: #ffffff;
+	--tertiary: black;
+
+	--background: #c6dbce;
+	--accent: #95b8a2;
+}
+
+p {
+	color: var(--sixth);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--primary);
+}

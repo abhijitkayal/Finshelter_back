@@ -1,0 +1,67 @@
+const sendZeptoMail = require('../utils/sendZeptoMail');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+// Send contact email
+const sendContactEmail = async (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !phone || !subject || !message) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Email to the admin/company
+    const adminMailOptions = {
+      from: '"FinShelter Website" <noreply@thefinshelter.com>',
+      to: process.env.ADMIN_EMAIL || 'jaisidhu2004@gmail.com',
+      subject: `New Contact Form Submission: ${subject}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
+    };
+
+    // Email to the customer (auto-reply)
+    const customerMailOptions = {
+      from: '"FinShelter" <noreply@thefinshelter.com>',
+      to: email,
+      subject: 'Thank you for contacting FinShelter',
+      html: `
+        <h2>Thank you for reaching out!</h2>
+        <p>Dear ${name},</p>
+        <p>We have received your message and our team will get back to you as soon as possible.</p>
+        <p>Here's a copy of your message:</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <p>Best Regards,</p>
+        <p>The FinShelter Team</p>
+      `,
+    };
+
+    // Send email to admin
+    await sendZeptoMail(adminMailOptions);
+
+    // Send auto-reply to customer
+    await sendZeptoMail(customerMailOptions);
+
+    return res.status(200).json({ message: 'Your message has been sent successfully!' });
+  } catch (error) {
+    console.error('Email sending error:', error);
+    console.error('Error details:', error.message);
+    console.error('Error stack:', error.stack);
+    return res.status(500).json({ 
+      message: 'Failed to send message. Please try again later.',
+      error: error.message 
+    });
+  }
+};
+
+module.exports = { sendContactEmail }; 

@@ -1,0 +1,72 @@
+.glossary-container {
+  background-color: #f9f9f9;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for webkit browsers */
+.glossary-container ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.glossary-container ::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.glossary-container ::-webkit-scrollbar-thumb {
+  background-color: #95b8a2;
+  border-radius: 10px;
+}
+
+.glossary-container ::-webkit-scrollbar-thumb:hover {
+  background-color: #1b321d;
+}
+
+/* Firefox scrollbar */
+.glossary-container {
+  scrollbar-width: thin;
+  scrollbar-color: #95b8a2 #f1f1f1;
+}
+
+/* Animation for content loading */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glossary-container .MuiPaper-root {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Enhance list item transitions */
+.glossary-container .MuiListItemButton-root {
+  transition: all 0.2s ease;
+}
+
+/* Fix for sticky sidebar on different browsers */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .glossary-container .MuiPaper-root.sticky {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .glossary-container {
+    padding-top: 5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .glossary-container {
+    padding-top: 4rem;
+  }
+} 

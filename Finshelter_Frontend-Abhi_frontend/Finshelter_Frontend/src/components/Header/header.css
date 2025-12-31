@@ -1,0 +1,433 @@
+html {
+	overflow-x: hidden;
+}
+
+body {
+	font-family: "Poppins", sans-serif;
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
+}
+
+.tax-header.scrolled {
+	background-color: white;
+	a {
+		color: var(--primary);
+	}
+	div {
+		color: var(--primary) !important;
+		span {
+			color: var(--primary) !important;
+		}
+	}
+	/* Exclude dropdown categories and content from turning green */
+	.dropdown-paper, 
+	.category-header, 
+	.service-list,
+	.service-item,
+	.service-name,
+	.service-icon,
+	.dropdown-trigger > div {
+		color: inherit !important;
+	}
+	.category-header div,
+	.category-header span,
+	.service-item div,
+	.service-item span,
+	.MuiChip-label {
+		color: inherit !important;
+	}
+	
+	/* Specifically preserve category chip colors */
+	.category-chip {
+		color: white !important;
+	}
+	.category-chip span {
+		color: white !important;
+	}
+}
+
+.tax-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+}
+
+.tax-header-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 3%; /* Relative padding */
+	width: 100%;
+	max-width: 1420px; /* Cap width for large screens */
+	margin: 0 auto;
+	a {
+		text-decoration: none;
+	}
+}
+
+.tax-logo {
+	border-radius: 20px;
+	overflow: hidden;
+	div {
+		font-size: 38px; /* Scales logo size */
+		font-weight: 700;
+		display: flex;
+		align-items: center;
+		padding: 0.5rem 0.75rem;
+		transition: all 0.3s ease;
+		span {
+			color: var(--secondary);
+		}
+		i {
+			margin-right: 0.3rem;
+		}
+	}
+}
+
+.tax-nav-wrap {
+	flex: 1; /* Allows nav to take available space */
+	display: flex;
+	justify-content: end;
+	padding-right: 30px;
+}
+
+.tax-top-nav {
+	display: flex;
+	align-items: center;
+	gap: clamp(1rem, 2vw, 2rem); /* Responsive gap */
+	a,
+	.dropdown-trigger {
+		font-size: 17px; /* Responsive font size */
+		font-weight: 700;
+		text-decoration: none;
+		color: var(--secondary);
+		padding: 0.5rem 0.75rem;
+		border-radius: 7px;
+		transition: all 0.3s ease;
+		white-space: nowrap; /* Prevents text wrapping */
+		&:hover {
+			background-color: var(--background);
+			color: var(--primary) !important;
+		}
+		i {
+			margin-left: 0.3rem;
+		}
+	}
+}
+
+.tax-top-nav a.active {
+	background-color: var(--background);
+	color: var(--primary) !important;
+}
+
+/* Ensure dropdown triggers don't get active styling but retain hover effect */
+.tax-top-nav .dropdown-trigger:hover {
+	background-color: var(--background);
+	color: var(--primary) !important;
+}
+
+.tax-header-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	button {
+		border-radius: 5px;
+		color: var(--secondary);
+		font-size: clamp(0.9rem, 2vw, 1rem);
+		border: none;
+		outline: none;
+		padding: 0.8rem 1.5rem;
+		background-color: var(--primary);
+		border: 1px solid var(--accent);
+		cursor: pointer;
+		transition: all 0.3s ease;
+		&:hover {
+			background-color: var(--accent);
+		}
+	}
+}
+
+/* Media Queries */
+@media only screen and (max-width: 1024px) {
+	.tax-header-wrap {
+		padding: 1rem 2%; /* Reduce padding on tablets */
+	}
+	.tax-nav-wrap {
+		flex: 0; /* Prevent overflow */
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	/* Existing styles for other sections */
+	.tax-section7-wrap,
+	.tax-section6wrap,
+	.tax9sliderwrap,
+	.tax-section8-wrap,
+	.tax-section11-wrap {
+		flex-direction: column;
+	}
+	.tax9sliderwrap {
+		width: 100%;
+	}
+	.slidercont {
+		max-width: 100%; /* Full width on mobile */
+	}
+	.tax-section8-right2 {
+		order: 1;
+	}
+	.tax-section9test-wrap {
+		width: auto;
+	}
+	
+	/* Mobile drawer styling enhancements */
+	.MuiDrawer-paper {
+		width: 100% !important;
+		max-width: 350px !important;
+	}
+	
+	/* Mobile drawer header improvements */
+	.MuiBox-root img {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	/* Mobile nav list styling */
+	.MuiList-root {
+		padding-top: 10px !important;
+	}
+	
+	/* Improve list items spacing and interaction */
+	.MuiListItem-root {
+		padding: 12px 16px !important;
+		transition: background-color 0.2s ease !important;
+	}
+	
+	.MuiListItem-root:active {
+		background-color: rgba(255, 255, 255, 0.1) !important;
+	}
+	
+	/* Enhanced dropdown styling in mobile view */
+	.MuiCollapse-root {
+		background-color: rgba(255, 255, 255, 0.95) !important;
+		width: 100% !important;
+		border-radius: 0 0 8px 8px;
+		margin-bottom: 10px;
+	}
+	
+	/* Fix dropdown menu positioning and scrolling */
+	.MuiCollapse-wrapperInner {
+		max-height: 70vh !important; /* Increased from 50vh to 70vh */
+		overflow-y: auto !important;
+		overflow-x: hidden !important;
+		-webkit-overflow-scrolling: touch !important;
+	}
+	
+	/* Make sure dropdown items are visible */
+	.MuiCollapse-root .service-item,
+	.MuiCollapse-root .category-list,
+	.MuiCollapse-root .ResourceItem {
+		padding-left: 15px !important;
+		margin-bottom: 5px !important;
+	}
+	
+	/* Make sure dropdown scrolls on smaller screens */
+	.dropdown-paper {
+		max-height: 100% !important;
+		overflow-y: visible !important;
+		box-shadow: none !important;
+	}
+	
+	/* Ensure insurance category and others are visible and scrollable */
+	.MuiBox-root.dropdown-content {
+		overflow-y: auto !important;
+		max-height: 100% !important;
+	}
+	
+	/* Ensure dropdown content is properly sized */
+	.MuiCollapse-wrapperInner > div {
+		width: 100% !important;
+	}
+	
+	/* Improve dropdown icons */
+	.MuiSvgIcon-root {
+		transition: transform 0.3s ease !important;
+	}
+	
+	/* Rotate icon when dropdown is open */
+	.MuiCollapse-entered + .MuiListItem-root .MuiSvgIcon-root,
+	.MuiCollapse-entered ~ .MuiListItem-root .MuiSvgIcon-root {
+		transform: rotate(180deg) !important;
+	}
+	
+	/* Mobile nav text styling */
+	.MuiListItemText-primary {
+		font-weight: 500 !important;
+		font-size: 16px !important;
+	}
+	
+	/* Fix dropdown text color - changing from white to #1b321d */
+	.MuiCollapse-root .service-name,
+	.MuiCollapse-root .category-name,
+	.MuiCollapse-root .ResourceTitle,
+	.MuiCollapse-root .MuiTypography-root,
+	.MuiCollapse-root .service-item,
+	.MuiCollapse-root .service-description {
+		color: #1b321d !important;
+	}
+	
+	/* Adjust category styling for better visibility */
+	.category-header {
+		background-color: rgba(27, 50, 29, 0.1) !important;
+		padding: 8px 10px !important;
+		margin-bottom: 5px !important;
+		position: sticky !important;
+		top: 0 !important;
+		z-index: 10 !important;
+	}
+	
+	/* Enhance mobile dropdown menu appearance */
+	.MuiCollapse-root .MuiList-root {
+		padding: 0 !important;
+	}
+	
+	.MuiCollapse-root .MuiListItem-root {
+		padding-left: 32px !important;
+	}
+	
+	/* Improve service item spacing */
+	.service-item {
+		padding: 8px 12px !important;
+		transition: background-color 0.2s ease !important;
+		border-radius: 4px !important;
+		margin: 3px 0 !important;
+	}
+	
+	.service-item:hover {
+		background-color: rgba(27, 50, 29, 0.08) !important;
+	}
+	
+	/* Enhance mobile dropdown dividers */
+	.MuiDivider-root {
+		background-color: rgba(27, 50, 29, 0.1) !important;
+		margin: 5px 0 !important;
+	}
+	
+	/* Adjust icon colors for better visibility */
+	.service-icon, 
+	.ResourceIcon {
+		margin-right: 10px !important;
+		color: #1b321d !important;
+	}
+	
+	/* Mobile fixed header styling */
+	.MuiAppBar-root {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+	}
+	
+	/* Fix mobile button alignment */
+	.tax-header-btn button {
+		width: 100% !important;
+		margin: 15px auto !important;
+	}
+	
+	/* Improve spacing for nested menu items */
+	.dropdown-menu-container .MuiListItem-root {
+		padding-left: 24px !important;
+	}
+	
+	/* Ensure dropdown wrappers have proper spacing */
+	.dropdown-wrapper {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+	
+	/* More visible active state for mobile navigation */
+	.MuiListItem-root.Mui-selected,
+	.MuiListItem-root.active {
+		background-color: rgba(255, 255, 255, 0.1) !important;
+		border-left: 3px solid var(--accent) !important;
+	}
+	
+	/* Fix for all dropdown height and scrolling issues */
+	.MuiCollapse-root {
+		max-height: none !important;
+	}
+	
+	/* Specific fix for the Services dropdown content */
+	.MuiCollapse-wrapperInner .MuiPaper-root {
+		max-height: none !important;
+	}
+	
+	/* Force specific dropdown categories to be visible */
+	.MuiCollapse-wrapperInner [data-category-id="insurance"],
+	.MuiCollapse-wrapperInner [data-category-id="loans"],
+	.MuiCollapse-wrapperInner [data-category-id="mutual-funds"] {
+		display: block !important;
+		visibility: visible !important;
+	}
+	
+	/* Better scrolling experience */
+	.MuiCollapse-wrapperInner {
+		scrollbar-width: thin;
+		scrollbar-color: rgba(27, 50, 29, 0.5) transparent;
+	}
+	
+	.MuiCollapse-wrapperInner::-webkit-scrollbar {
+		width: 6px;
+	}
+	
+	.MuiCollapse-wrapperInner::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	
+	.MuiCollapse-wrapperInner::-webkit-scrollbar-thumb {
+		background-color: rgba(27, 50, 29, 0.5);
+		border-radius: 6px;
+	}
+	
+	/* Additional fixes for dropdown scrolling */
+	.MuiBox-root.dropdown-content,
+	.MuiBox-root.dropdown-paper,
+	.dropdown-categories-container,
+	.dropdown-menu-container,
+	.MuiCollapse-wrapperInner .MuiGrid-container {
+		max-height: none !important;
+		height: auto !important;
+		overflow: visible !important;
+	}
+	
+	/* Ensure proper parent container heights */
+	.dropdown-menu-container > div,
+	.dropdown-categories-container > div,
+	.MuiCollapse-wrapperInner > div > div {
+		height: auto !important;
+		max-height: none !important;
+	}
+}
+
+/* Fix for very small screens */
+@media only screen and (max-width: 350px) {
+	.MuiDrawer-paper {
+		width: 100% !important;
+	}
+	
+	/* Adjust padding for small screens */
+	.MuiListItem-root {
+		padding: 10px 12px !important;
+	}
+	
+	/* Smaller font size for tiny screens */
+	.MuiListItemText-primary {
+		font-size: 15px !important;
+	}
+}

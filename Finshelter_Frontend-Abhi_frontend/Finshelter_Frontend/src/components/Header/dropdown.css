@@ -1,0 +1,140 @@
+/* Base styles that enhance or override sx props if needed */
+.dropdown-menu {
+	transition: all 0.2s ease; /* Smooth appearance */
+}
+
+/* Ensure links remain consistent */
+.dropdown-link {
+	color: var(--primary) !important;
+	text-decoration: none !important;
+	font-weight: 600;
+}
+
+/* Add animations for dropdown items */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+	width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: rgba(149, 184, 162, 0.1);
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: rgba(149, 184, 162, 0.5);
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: rgba(149, 184, 162, 0.7);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(30, 74, 48, 0.2) transparent;
+}
+
+/* Add a subtle shadow to the dropdown */
+.dropdown-paper {
+	position: relative;
+}
+
+.dropdown-paper::before {
+	content: "";
+	position: absolute;
+	top: -15px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 12px solid transparent;
+	border-right: 12px solid transparent;
+	border-bottom: 15px solid rgba(255, 255, 255, 0.98);
+	filter: drop-shadow(0 -3px 5px rgba(0, 0, 0, 0.05));
+	z-index: 1;
+}
+
+/* Apply a staggered animation to service items */
+.service-link {
+	opacity: 0;
+	animation: fadeInUp 0.35s ease forwards;
+	animation-delay: calc(var(--item-index, 0) * 0.05s + 0.1s);
+}
+
+/* Category animations */
+.category-header {
+	opacity: 0;
+	animation: fadeInUp 0.3s ease forwards;
+	animation-delay: 0.05s;
+}
+
+/* Hover effects */
+.service-item:hover .service-icon {
+	transform: scale(1.12);
+}
+
+.service-item:hover .service-name {
+	letter-spacing: 0.02em;
+}
+
+/* Hover effect for chips */
+[class*="MuiChip-root"]:hover {
+	filter: brightness(1.05);
+}
+
+/* Tooltip enhancements */
+.MuiTooltip-tooltip {
+	background-color: var(--primary) !important;
+	color: white !important;
+	border-radius: 6px !important;
+	font-size: 0.8rem !important;
+	padding: 8px 12px !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Add a pink border on hover for service items */
+.service-item:hover::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 3px;
+	background-color: #ff4081;
+	border-radius: 4px 0 0 4px;
+}
+
+/* Add styles for category chips to make them more prominent */
+.category-chip {
+	font-weight: 700 !important;
+	letter-spacing: 0.5px !important;
+	text-transform: uppercase !important;
+}
+
+/* Add animation for category chips */
+.category-chip:hover {
+	transform: translateY(-2px) !important;
+	transition: all 0.3s ease !important;
+}
+
+/* Enhance dropdown items animation */
+.service-item-container {
+	opacity: 0;
+	animation: fadeInUp 0.3s forwards;
+	animation-delay: calc(var(--item-index) * 0.05s);
+}
+
+/* Remove unused or conflicting styles */

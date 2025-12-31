@@ -1,0 +1,264 @@
+#tax-section7 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 50px 0px;
+	margin-top: 20px;
+}
+
+.tax-section7-wrap {
+	display: flex;
+	justify-content: center;
+	width: 90%;
+	gap: 20px;
+}
+
+.tax7-left {
+	display: flex;
+	flex-direction: column;
+	img {
+		width: 644px;
+	}
+	div {
+		margin-top: 18px;
+		display: flex;
+		gap: 18px;
+		img {
+			width: 290px;
+			object-fit: cover;
+		}
+	}
+}
+
+#tax7-small-count div {
+	margin: 0;
+	background-color: var(--background);
+	div {
+		width: 50%;
+		background-image: none;
+		i {
+			color: var(--primary);
+		}
+		h1 {
+			color: var(--primary);
+		}
+	}
+	p {
+		color: var(--primary);
+	}
+}
+
+.tax7-right {
+	padding: 10px 40px;
+	h1 {
+		position: relative;
+		font-size: 40px;
+	}
+	h1::before {
+		content: "";
+		position: absolute;
+		left: -19px;
+		top: -25px;
+		bottom: 0;
+		width: 6px;
+		background-color: var(--accent);
+		margin-top: 28px;
+	}
+}
+
+.tax7-list {
+	display: flex;
+	flex-direction: column;
+	p {
+		margin: 10px 0px;
+	}
+	button {
+		width: 80%;
+	}
+}
+
+.tax-7list-con {
+	display: flex;
+	margin-bottom: 20px;
+	gap: 23px;
+}
+
+.tax-7list-con ul {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 2px;
+	margin-top: 20px;
+	gap: 15px;
+	flex-wrap: wrap;
+	li {
+		min-width: 250px;
+		list-style: none;
+
+		h4 {
+			font-size: 17px;
+		}
+	}
+	i {
+		margin-right: 5px;
+		color: var(--accent);
+	}
+}
+
+.two-sliders-container {
+	display: flex;
+	gap: 40px;
+	margin: 20px auto;
+	width: 90%;
+}
+
+.slider-container {
+	position: relative;
+	width: 80%;
+}
+
+.slider {
+	width: 100%;
+	margin: 10px 0;
+	appearance: none;
+	height: 8px;
+	background: #ddd;
+	border-radius: 5px;
+	outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: transparent;
+	pointer-events: none;
+}
+
+.slider-label {
+	position: absolute;
+	top: -14px;
+	left: 92%;
+	transform: translateX(-50%);
+	font-size: 14px;
+	font-weight: bold;
+	color: gray;
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+/* Mobile Responsiveness (below 768px) */
+@media screen and (max-width: 768px) {
+	#tax-section7 {
+		padding: 40px 15px;
+	}
+	
+	.tax-section7-wrap {
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 95%;
+		margin: 0 auto;
+	}
+	
+	.tax7-left, .tax7-right {
+		width: 100%;
+		padding: 15px 0;
+	}
+	
+	.tax7-right h1 {
+		font-size: 28px;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	
+	.tax7-list {
+		margin-left: 0;
+	}
+	
+	.two-sliders-container {
+		flex-direction: column;
+		row-gap: 30px;
+	}
+	
+	.slider-container {
+		width: 100%;
+	}
+	.tax7-left img{
+		max-width: 372px;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	#tax-section7 {
+		padding: 30px 10px;
+	}
+	
+	.tax7-right h1 {
+		font-size: 24px;
+	}
+	
+	.tax7-list li {
+		margin-bottom: 12px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#tax-section7 {
+		padding: 25px 8px;
+	}
+	
+	.tax-section7-wrap {
+		max-width: 100%;
+	}
+	
+	.tax7-right h1 {
+		font-size: 22px;
+	}
+	
+	.slider-container {
+		padding: 15px 10px;
+	}
+}
+
+/* Extra adjustments for smaller screens */
+@media only screen and (max-width: 576px) {
+	.tax7-right {
+		padding: 10px 10px; /* Further reduce padding */
+		
+		h1 {
+			font-size: 1.8rem; /* Fixed smaller size for very small screens */
+			text-align: left; /* Left align on very small screens */
+			margin-left: 5px; /* Add a bit of margin */
+		}
+	}
+	
+	.tax7-list p {
+		text-align: left; /* Ensure paragraph is left-aligned */
+	}
+
+	.tax-7list-con ul li {
+		font-size: 0.85rem; /* Even smaller text on tiny screens */
+		
+		h4 {
+			font-size: 1rem; /* Smaller headings */
+		}
+	}
+
+	.two-sliders-container {
+		padding: 0 10px; /* Reduce padding */
+		gap: 25px; /* Increase gap slightly for better separation */
+	}
+}
+
+/* Fix slider display issues on very small screens */
+@media only screen and (max-width: 480px) {
+	.slider-container label {
+		font-size: 0.8rem; /* Smaller label text */
+	}
+	
+	.slider-label {
+		left: 92%; /* Adjust position to prevent overflow */
+	}
+}

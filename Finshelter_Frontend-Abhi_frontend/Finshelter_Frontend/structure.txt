@@ -1,0 +1,30 @@
+Backend
+  config
+    db.js
+  controllers
+    adminController.jks
+    customercontroller.js
+    employeecontroller.js
+    managercontroller.js
+    messagecontroller.js
+    walletcontroller.js
+  middlewares
+    authmiddleware.js
+    upload.js
+    upload2.js
+  models
+    messagemodel.js
+    usermodel.js
+    servicemodel.js
+    walletmodel.js
+  routes
+    adminroutes.js
+    customerroutes.js
+    employeeroutes.js
+    managerroutes.js
+    messageroutes.js
+  uploads(multer folder for storing images)
+  utils
+    customerAssignement.js
+    idGenerator.js
+  server.js
