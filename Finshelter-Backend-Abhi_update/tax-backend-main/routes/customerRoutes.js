@@ -1,37 +1,12 @@
 //customer routes
-const express = require("express");
-const uploadMiddleware = require("../middlewares/upload");
-const uploadMiddleware2 = require("../middlewares/upload2");
-const {
-	getWalletDetails,
-	requestWithdrawal,
-	getTransactions,
-	getReferralStats,
-} = require("../controllers/walletController");
 
 const {
-	registerCustomer,
-	loginUser,
-	verifyLoginOTP,
-	resendLoginOTP,
-	getServiceById,
-	initiatePayment,
-	getUserServices,
-	getCustomerDashboard,
-	handlePaymentSuccess,
-	updateCustomerProfile,
 	uploadDocuments,
 	sendQuery,
 	getCustomerQueriesWithReplies,
 	submitFeedback,
 	updateBankDetails,
 	registerFlexiCustomer,
-	processFlexiFunnelRedirect,
-	googleRegister,
-	// Add the new controller functions for password reset
-	forgotPassword,
-	resetPassword,
-	verifyResetToken,
 	checkEmailAvailability,
 } = require("../controllers/customerController");
 
@@ -44,19 +19,7 @@ router.get("/cdashboard", authMiddleware, getCustomerDashboard);
 // Service details
 router.get("/user-services/:serviceId", getServiceById);
 
-// Customer registration
-router.post("/user-register", registerCustomer);
-router.post("/flexi-register", registerFlexiCustomer);
-router.post("/google-register", googleRegister);
-// Customer login
-router.post("/user-login", loginUser);
-router.post("/verify-login-otp", verifyLoginOTP);
-router.post("/resend-login-otp", resendLoginOTP);
 
-// Password reset routes
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
-router.get("/verify-reset-token/:token", verifyResetToken);
 
 // Initiate payment
 router.post("/user-payment", initiatePayment);
@@ -84,22 +47,6 @@ router.post("/feedback", authMiddleware, submitFeedback);
 
 
 
-//wallet
-router.get("/wallet", authMiddleware, getWalletDetails);
-router.post("/wallet/withdraw", authMiddleware, requestWithdrawal);
-router.get("/wallet/transactions", authMiddleware, getTransactions);
-router.get("/wallet/referral/stats", authMiddleware, getReferralStats);
 
-router.post("/update-bank-details", authMiddleware, updateBankDetails);
-// In customerRoutes.js, add a test route
-router.get("/wallet/test", (req, res) => {
-	res.json({ message: "Wallet routes are working", user: req.user });
-});
-
-// Lead creation route (supports both guests and logged-in users)
-router.post('/lead', createLead);
-
-// Email validation route (no auth required)
-router.get("/check-email", checkEmailAvailability);
 
 module.exports = router;

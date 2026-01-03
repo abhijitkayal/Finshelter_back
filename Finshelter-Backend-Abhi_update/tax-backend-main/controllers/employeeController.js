@@ -1,12 +1,4 @@
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-const Service = require("../models/serviceModel");
-const Message = require("../models/messageModel");
-const Lead = require("../models/leadModel");
-const path = require("path");
-const fs = require("fs");
-const sendZeptoMail = require("../utils/sendZeptoMail");
+
 
 // Utility: Hash password using SHA-256
 const hashPassword = (password, salt) => {
@@ -905,7 +897,8 @@ const rejectLead = async (req, res) => {
 								<p style="margin-top: 30px; color: #888;">Best regards,<br>Finshelter Team</p>
 							</div>
 						</div>
-					`
+					`,
+					emailType: EMAIL_TYPES.GENERAL
 				});
 			} catch (emailError) {
 				console.error("Error sending lead rejection notification:", emailError);
@@ -1044,7 +1037,8 @@ const uploadLeadDocuments = async (req, res) => {
 								<p style="margin-top: 30px; color: #888;">Best regards,<br>Finshelter Team</p>
 							</div>
 						</div>
-					`
+					`,
+					emailType: EMAIL_TYPES.GENERAL
 				});
 			} catch (emailError) {
 				console.error("Error sending lead document upload notification:", emailError);
@@ -1198,7 +1192,8 @@ const sendOrderForL1Review = async (req, res) => {
 								<p style="margin-top: 30px; color: #888;">Best regards,<br>Finshelter Team</p>
 							</div>
 						</div>
-					`
+					`,
+					emailType: EMAIL_TYPES.GENERAL
 				});
 			}
 		} catch (emailError) {
@@ -1253,96 +1248,20 @@ const forgotPassword = async (req, res) => {
 		await employee.save();
 
 		// Create reset URL (hardcoded frontend URL)
-		// const resetUrl = `https://thefinshelter.com/employees/reset-password/${resetToken}`;
-
 		const resetUrl = `https://thefinshelter.com/employees/reset-password/${resetToken}`;
 
-		// Email content
-		const subject = "Password Reset Request";
-		const text = `You are receiving this email because you (or someone else) requested a password reset for your employee account.\n\n
-            Please click the link below to reset your password:\n\n
-            ${resetUrl}\n\n
-            This link is valid for 1 hour only.\n\n
-            If you did not request this, please ignore this email and your password will remain unchanged.`;
-
-		// HTML Email template
-		const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Password Reset Request</title>
-            <style>
-                body {
-                    font-family: 'Poppins', Arial, sans-serif;
-                    line-height: 1.6;
-                    color: #333;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-                .container {
-                    background-color: #f7f7f7;
-                    padding: 20px;
-                    border-radius: 5px;
-                }
-                .header {
-                    background-color: #1b321d;
-                    color: white;
-                    padding: 15px;
-                    text-align: center;
-                    border-radius: 5px 5px 0 0;
-                }
-                .content {
-                    background-color: white;
-                    padding: 20px;
-                    border-radius: 0 0 5px 5px;
-                }
-                .button {
-                    display: inline-block;
-                    background-color: #1b321d;
-                    color: white;
-                    text-decoration: none;
-                    padding: 10px 20px;
-                    margin: 20px 0;
-                    border-radius: 5px;
-                    font-weight: bold;
-                }
-                .footer {
-                    text-align: center;
-                    font-size: 0.8em;
-                    margin-top: 20px;
-                    color: #666;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>Password Reset Request</h1>
-                </div>
-                <div class="content">
-                    <p>Hello ${employee.name},</p>
-                    <p>You are receiving this email because you (or someone else) requested a password reset for your employee account.</p>
-                    <p>Please click the button below to reset your password:</p>
-                    <a href="${resetUrl}" class="button">Reset Password</a>
-                    <p>This link is valid for 1 hour only.</p>
-                    <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
-                </div>
-                <div class="footer">
-                    <p>&copy; ${new Date().getFullYear()} Finshelter. All rights reserved.</p>
-                </div>
-            </div>
-        </body>
-        </html>
-        `;
-
-		// Send password reset email
+		// Send password reset email using template
 		try {
-			await sendZeptoMail({
+			await sendZeptoMailTemplate({
 				to: employee.email,
-				subject,
-				html: htmlContent
+				name: employee.name,
+				templateData: {
+					password_reset_link: resetUrl,
+					name: employee.name,
+					team: "Finshelter",
+					username: employee.email
+				},
+				emailType: EMAIL_TYPES.PASSWORD_RESET
 			});
 		} catch (emailError) {
 			console.error("Error sending password reset email:", emailError);

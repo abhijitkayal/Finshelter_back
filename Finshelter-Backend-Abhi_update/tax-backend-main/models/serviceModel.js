@@ -1,6 +1,4 @@
-const mongoose = require("mongoose");
-const { CustomObjectId } = require("../utils/idGenerator");
-const packageSchema = new mongoose.Schema({
+
 	name: { type: String },
 	description: { type: String },
 	actualPrice: { type: Number },

@@ -2,6 +2,7 @@ const Lead = require("../models/leadModel");
 const Service = require("../models/serviceModel");
 const User = require("../models/userModel"); // Import User model
 const sendZeptoMail = require("../utils/sendZeptoMail");
+const { EMAIL_TYPES } = require("../utils/sendZeptoMail");
 
 // Create a new lead from the service inquiry form
 const createLead = async (req, res) => {
@@ -60,7 +61,8 @@ const createLead = async (req, res) => {
                     <p><strong>Service:</strong> ${service.name}</p>
                     <p><strong>Message:</strong> ${message || "N/A"}</p>
                     <p>Please check the admin dashboard to process this lead.</p>
-                `
+                `,
+                emailType: EMAIL_TYPES.GENERAL
             });
         } catch (emailError) {
             console.error("Error sending email notification:", emailError);
@@ -79,7 +81,8 @@ const createLead = async (req, res) => {
                     <p>We have received your inquiry and our team will contact you shortly to discuss further details.</p>
                     <p>If you have any immediate questions, please feel free to contact us.</p>
                     <p>Best regards,<br>The FinShelter Team</p>
-                `
+                `,
+                emailType: EMAIL_TYPES.GENERAL
             });
         } catch (emailError) {
             console.error("Error sending acknowledgment email:", emailError);

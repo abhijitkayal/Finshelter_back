@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+// const router = express.Router();
 const User = require("../models/userModel");
 const Service = require("../models/serviceModel");
 
@@ -96,33 +96,33 @@ router.post("/assign-service", assignServiceToFlexiCustomer);
 router.post("/promote-to-manager", promoteToManager);
 router.post("/assign-order", assignOrderToEmployee);
 
-// router.post("/users/:userId/assign-service", async (req, res) => {
-// 	const { userId } = req.params;
-// 	const { serviceId } = req.body;
+router.post("/users/:userId/assign-service", async (req, res) => {
+	const { userId } = req.params;
+	const { serviceId } = req.body;
 
-// 	try {
-// 		const user = await User.findById(userId);
-// 		if (!user) return res.status(404).json({ message: "User not found" });
+	try {
+		const user = await User.findById(userId);
+		if (!user) return res.status(404).json({ message: "User not found" });
 
-// 		const service = await Service.findById(serviceId); // Assuming a Service model exists
-// 		if (!service) return res.status(404).json({ message: "Service not found" });
+		const service = await Service.findById(serviceId); // Assuming a Service model exists
+		if (!service) return res.status(404).json({ message: "Service not found" });
 
-// 		user.services.push({
-// 			serviceId,
-// 			name: service.name,
-// 			status: "In Process",
-// 			activated: true,
-// 			purchasedAt: new Date(),
-// 		});
+		user.services.push({
+			serviceId,
+			name: service.name,
+			status: "In Process",
+			activated: true,
+			purchasedAt: new Date(),
+		});
 
-// 		await user.save();
-// 		res.status(200).json({ message: "Service assigned successfully" });
-// 	} catch (error) {
-// 		res
-// 			.status(500)
-// 			.json({ message: "Error assigning service", error: error.message });
-// 	}
-// });
+		await user.save();
+		res.status(200).json({ message: "Service assigned successfully" });
+	} catch (error) {
+		res
+			.status(500)
+			.json({ message: "Error assigning service", error: error.message });
+	}
+});
 
 router.post("/users/:userId/assign-service", async (req, res) => {
 	const { userId } = req.params;
@@ -174,26 +174,21 @@ const generateOrderId = (userId) => {
 };
 
 // Lead management routes
-router.get("/leads", getAllLeads);
-router.post("/leads/assign", assignLeadToEmployee);
-router.put("/leads/:leadId/accept", acceptLead);
-router.put("/leads/:leadId/decline", declineLead);
-router.post("/leads/convert", convertLeadToOrder);
-router.post("/leads/send-back", sendLeadBackToEmployee);
+
 
 module.exports = router;
 
-// const express = require("express");
-// const router = express.Router();
-// const adminAuth = require("../middleware/adminAuth");
+const express = require("express");
+const router = express.Router();
+const adminAuth = require("../middleware/adminAuth");
 
-// // Protected admin endpoints
-// router.get("/dashboard", adminAuth, getDashboard);
-// router.get("/orders", adminAuth, getOrders);
-// router.get("/withdrawal-requests", adminAuth, getWithdrawals);
-// router.post("/approve-withdrawal", adminAuth, approveWithdrawal);
+// Protected admin endpoints
+router.get("/dashboard", adminAuth, getDashboard);
+router.get("/orders", adminAuth, getOrders);
+router.get("/withdrawal-requests", adminAuth, getWithdrawals);
+router.post("/approve-withdrawal", adminAuth, approveWithdrawal);
 
-// // Public admin login
-// router.post("/login", adminLogin);
+// Public admin login
+router.post("/login", adminLogin);
 
-// module.exports = router;
+module.exports = router;

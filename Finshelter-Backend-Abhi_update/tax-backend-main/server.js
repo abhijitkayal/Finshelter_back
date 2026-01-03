@@ -1,23 +1,7 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const path = require("path");
-const fs = require("fs");
-const connectDB = require("./config/db");
-const adminRoutes = require("./routes/adminRoutes");
-const customerRoutes = require("./routes/customerRoutes");
-const messageRoutes = require("./routes/messageRoutes");
-const employeeRoutes = require("./routes/employeeRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
-const https = require("https");
-
 dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
 
 app.use(express.json()); // Middleware to parse JSON
 app.use("/api/admin", adminRoutes); // Admin routes
@@ -33,12 +17,6 @@ app.use("/api/services", require("./routes/upload"));
 app.use(
 	"/uploads",
 	(req, res, next) => {
-		// Add specific CORS headers for file access
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header(
-			"Access-Control-Allow-Headers",
-			"Origin, X-Requested-With, Content-Type, Accept"
-		);
 		next();
 	},
 	express.static(path.join(__dirname, "uploads"))

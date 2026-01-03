@@ -1,9 +1,4 @@
-const Razorpay = require("razorpay");
-const crypto = require("crypto");
-const Order = require("../models/orderModel");
-const User = require("../models/userModel");
-const Service = require("../models/serviceModel");
-const mongoose = require("mongoose");
+
 
 const counterSchema = new mongoose.Schema({
   name: { type: String, unique: true },

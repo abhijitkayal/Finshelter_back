@@ -1,4 +1,5 @@
 const sendZeptoMail = require('../utils/sendZeptoMail');
+const { EMAIL_TYPES } = require('../utils/sendZeptoMail');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -47,10 +48,10 @@ const sendContactEmail = async (req, res) => {
     };
 
     // Send email to admin
-    await sendZeptoMail(adminMailOptions);
+    await sendZeptoMail({...adminMailOptions, emailType: EMAIL_TYPES.GENERAL});
 
     // Send auto-reply to customer
-    await sendZeptoMail(customerMailOptions);
+    await sendZeptoMail({...customerMailOptions, emailType: EMAIL_TYPES.GENERAL});
 
     return res.status(200).json({ message: 'Your message has been sent successfully!' });
   } catch (error) {

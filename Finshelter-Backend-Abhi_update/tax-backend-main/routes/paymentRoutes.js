@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-	createRazorpayOrder,
-	verifyPayment,
-	getOrderDetails,
-	getCustomerOrders,
-	updateOrderRating,
-} = require("../controllers/paymentController");
+
 const authMiddleware = require("../middlewares/authMiddleware");
 
 // Create Razorpay Order

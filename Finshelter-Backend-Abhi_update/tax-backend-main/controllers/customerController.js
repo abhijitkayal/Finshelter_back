@@ -2147,6 +2147,7 @@ const Wallet = require("../models/walletModel");
 const { CustomObjectId } = require("../utils/idGenerator");
 const Lead = require("../models/leadModel");
 const sendZeptoMail = require("../utils/sendZeptoMail");
+const { sendZeptoMailTemplate, EMAIL_TYPES } = require("../utils/sendZeptoMail");
 
 const hashPassword = (password, salt) => {
 	const hash = crypto.createHmac("sha256", salt);
@@ -2432,21 +2433,13 @@ const registerCustomer = async (req, res) => {
 
 		// Send welcome email (don't fail registration if email fails)
 		try {
-			await sendZeptoMail({
+			await sendZeptoMailTemplate({
 				to: email,
-				subject: "Welcome to Our Service",
-				html: `
-					<h2>Welcome to Our Service!</h2>
-					<p>Hello ${name},</p>
-					<p>Thank you for registering with us! Your referral code is: <strong>${newReferralCode}</strong></p>
-					${
-						assignmentResult.success
-						? `<p>An employee has been assigned to assist you with your service: <strong>${assignmentResult.employee.name}</strong></p>`
-						: ''
-					}
-					<p>We're excited to have you on board!</p>
-					<p>Best regards,<br>The Team</p>
-				`
+				name: name,
+				templateData: {
+					"First Name": name
+				},
+				emailType: EMAIL_TYPES.WELCOME
 			});
 		} catch (emailError) {
 			console.log('Warning: Failed to send welcome email:', emailError.message);
@@ -2554,21 +2547,13 @@ const registerFlexiCustomer = async (req, res) => {
 
 		// Send welcome email
 		try {
-			await sendZeptoMail({
+			await sendZeptoMailTemplate({
 				to: email,
-				subject: "Welcome to Our Service",
-				html: `
-					<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-						<h2 style="color: #2c3e50;">Welcome to Our Service!</h2>
-						<p>Dear ${name},</p>
-						<p>Thank you for registering. Your account has been created successfully.</p>
-						<p>Your referral code is: <strong>${newReferralCode}</strong></p>
-						<p>Our team will review and assign your service within 24 hours.</p>
-						<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-							<p>Best regards,<br>Team</p>
-						</div>
-					</div>
-				`
+				name: name,
+				templateData: {
+					"First Name": name
+				},
+				emailType: EMAIL_TYPES.WELCOME
 			});
 		} catch (emailError) {
 			console.error("Error sending welcome email:", emailError);
@@ -2904,7 +2889,8 @@ Total amount: ₹${amountInRupees.toFixed(2)}`;
 							<p>Best regards,<br>The Team</p>
 						</div>
 					</div>
-				`
+				`,
+				emailType: EMAIL_TYPES.PAYMENTS
 			});
 		} catch (emailError) {
 			console.error("Error sending purchase confirmation email:", emailError);
@@ -3100,7 +3086,8 @@ const loginUser = async (req, res) => {
 						<hr style="margin: 20px 0; border: none; border-top: 1px solid #e5e7eb;">
 						<p style="color: #6b7280; font-size: 12px;">Finshelter - Your Financial Partner</p>
 					</div>
-				`
+				`,
+				emailType: EMAIL_TYPES.GENERAL
 			});
 			console.log(`✓ Login OTP sent to ${user.email}`);
 		} catch (emailError) {
@@ -3245,7 +3232,8 @@ const resendLoginOTP = async (req, res) => {
 						<hr style="margin: 20px 0; border: none; border-top: 1px solid #e5e7eb;">
 						<p style="color: #6b7280; font-size: 12px;">Finshelter - Your Financial Partner</p>
 					</div>
-				`
+				`,
+				emailType: EMAIL_TYPES.GENERAL
 			});
 		} catch (emailError) {
 			console.error('Error sending OTP email:', emailError);
@@ -3639,7 +3627,11 @@ const processFlexiFunnelRedirect = async (req, res) => {
 		}
 
 		// Generate a temporary login token
-		// Removed JWT token generation
+		const token = jwt.sign(
+			{ userId: flexiCustomer._id, email: flexiCustomer.email, role: flexiCustomer.role },
+			process.env.JWT_SECRET,
+			{ expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
+		);
 
 		// Send notification email to admin
 		try {
@@ -3666,7 +3658,8 @@ const processFlexiFunnelRedirect = async (req, res) => {
 							<p>Best regards,<br>Finshelter Team</p>
 						</div>
 					</div>
-				`
+				`,
+				emailType: EMAIL_TYPES.GENERAL
 			});
 		} catch (emailError) {
 			console.error("Error sending FlexiFunnel notification email:", emailError);
@@ -3802,20 +3795,13 @@ const googleRegister = async (req, res) => {
 
 		// Send welcome email to the user
 		try {
-			await sendZeptoMail({
+			await sendZeptoMailTemplate({
 				to: createdUser.email,
-				subject: "Welcome to Finshelter!",
-				html: `
-					<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-						<h2 style="color: #2c3e50;">Welcome to Finshelter!</h2>
-						<p>Hello ${createdUser.name},</p>
-						<p>Thank you for registering with us using Google Sign-In.</p>
-						<p>You can now access all our services and manage your account.</p>
-						<p>If you have any questions, feel free to contact our support team.</p>
-						<p>Best Regards,</p>
-						<p>The Finshelter Team</p>
-					</div>
-				`,
+				name: createdUser.name,
+				templateData: {
+					"First Name": createdUser.name
+				},
+				emailType: EMAIL_TYPES.WELCOME
 			});
 		} catch (emailError) {
 			console.error("Error sending welcome email:", emailError);
@@ -3850,6 +3836,10 @@ const googleRegister = async (req, res) => {
  */
 const forgotPassword = async (req, res) => {
 	try {
+		console.log('\n🔐 === FORGOT PASSWORD REQUEST ===');
+		console.log('📧 Email:', req.body.email);
+		console.log('⏰ Timestamp:', new Date().toISOString());
+		
 		const { email } = req.body;
 
 		if (!email) {
@@ -3862,11 +3852,14 @@ const forgotPassword = async (req, res) => {
 		// Find the user by email
 		const user = await User.findOne({ email: email });
 		if (!user) {
+			console.log('❌ User not found:', email);
 			return res.status(404).json({
 				success: false,
 				message: "User with this email does not exist",
 			});
 		}
+
+		console.log('✅ User found:', user.name, user.email);
 
 		// Generate a random reset token
 		const resetToken = crypto.randomBytes(32).toString("hex");
@@ -3883,96 +3876,26 @@ const forgotPassword = async (req, res) => {
 		const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 		const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
 
-		// Email content
-		const subject = "Password Reset Request";
-		const text = `You are receiving this email because you (or someone else) requested a password reset for your account.\n\n
-			Please click the link below to reset your password:\n\n
-			${resetUrl}\n\n
-			This link is valid for 1 hour only.\n\n
-			If you did not request this, please ignore this email and your password will remain unchanged.`;
+		console.log('🔗 Reset URL:', resetUrl);
+		console.log('📧 Attempting to send template email...');
 
-		// HTML Email template
-		const htmlContent = `
-		<!DOCTYPE html>
-		<html lang="en">
-		<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Password Reset Request</title>
-			<style>
-				body {
-					font-family: 'Poppins', Arial, sans-serif;
-					line-height: 1.6;
-					color: #333;
-					max-width: 600px;
-					margin: 0 auto;
-				}
-				.container {
-					background-color: #f7f7f7;
-					padding: 20px;
-					border-radius: 5px;
-				}
-				.header {
-					background-color: #1b321d;
-					color: white;
-					padding: 15px;
-					text-align: center;
-					border-radius: 5px 5px 0 0;
-				}
-				.content {
-					background-color: white;
-					padding: 20px;
-					border-radius: 0 0 5px 5px;
-				}
-				.button {
-					display: inline-block;
-					background-color: #1b321d;
-					color: white;
-					text-decoration: none;
-					padding: 10px 20px;
-					margin: 20px 0;
-					border-radius: 5px;
-					font-weight: bold;
-				}
-				.footer {
-					text-align: center;
-					font-size: 0.8em;
-					margin-top: 20px;
-					color: #666;
-				}
-			</style>
-		</head>
-		<body>
-			<div class="container">
-				<div class="header">
-					<h1>Password Reset Request</h1>
-				</div>
-				<div class="content">
-					<p>Hello ${user.name},</p>
-					<p>You are receiving this email because you (or someone else) requested a password reset for your account.</p>
-					<p>Please click the button below to reset your password:</p>
-					<a href="${resetUrl}" class="button">Reset Password</a>
-					<p>This link is valid for 1 hour only.</p>
-					<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
-				</div>
-				<div class="footer">
-					<p>&copy; ${new Date().getFullYear()} Finshelter. All rights reserved.</p>
-				</div>
-			</div>
-		</body>
-		</html>
-		`;
-
-		// Send password reset email
+		// Send password reset email using template
 		try {
-			await sendZeptoMail({
+			await sendZeptoMailTemplate({
 				to: user.email,
-				subject: subject,
-				html: htmlContent
+				name: user.name,
+				templateData: {
+					password_reset_link: resetUrl,
+					name: user.name,
+					team: "Finshelter",
+					username: user.email
+				},
+				emailType: EMAIL_TYPES.PASSWORD_RESET
 			});
-			console.log(`✓ Password reset email sent to ${user.email}`);
+			console.log(`✅ Template email sent successfully to ${user.email}`);
 		} catch (emailError) {
-			console.error("Error sending password reset email:", emailError);
+			console.error("❌ Error sending password reset email:", emailError);
+			console.error("❌ Error details:", emailError.message);
 		}
 
 		res.status(200).json({
@@ -4086,7 +4009,8 @@ const resetPassword = async (req, res) => {
 			await sendZeptoMail({
 				to: user.email,
 				subject,
-				html
+				html,
+				emailType: EMAIL_TYPES.PASSWORD_RESET
 			});
 		} catch (emailError) {
 			console.error("Error sending email:", emailError);

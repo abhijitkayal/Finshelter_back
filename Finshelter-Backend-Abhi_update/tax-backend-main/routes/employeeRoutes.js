@@ -8,26 +8,6 @@ const path = require('path');
 const User = require("../models/userModel");
 const { sendEmail } = require("../utils/emailUtils");
 
-const {
-	employeeLogin,
-	updateServiceStatus,
-	getAssignedCustomers,
-	getQueriesForEmployee,
-	replyToQuery,
-	updateEmployeeProfile,
-	getEmployeeDash,
-	getAssignedLeads,
-	approveLead,
-	rejectLead,
-	uploadLeadDocuments,
-	updateServiceDelayReason,
-	sendOrderForL1Review,
-
-	forgotPassword,
-	verifyResetToken,
-	resetPassword,
-} = require("../controllers/employeeController");
-
 // Configure multer for file uploads
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -51,18 +31,12 @@ if (!fs.existsSync(tempDir)) {
 
 router.post("/login", employeeLogin);
 router.post("/update-service-status", authMiddleware, updateServiceStatus);
-router.get("/assigned-customers", authMiddleware, getAssignedCustomers);
-router.get("/queries", authMiddleware, getQueriesForEmployee);
-router.put("/queries/reply", authMiddleware, replyToQuery);
+counter.put("/queries/reply", authMiddleware, replyToQuery);
 
 router.put("/update-employee-profile", authMiddleware, updateEmployeeProfile);
 router.get("/emdashboard", authMiddleware, getEmployeeDash);
 
 // New routes for lead management
-router.get("/assigned-leads", authMiddleware, getAssignedLeads);
-router.post("/approve-lead/:leadId", authMiddleware, approveLead);
-router.put("/leads/:leadId/reject", authMiddleware, rejectLead);
-router.post("/leads/:leadId/documents", authMiddleware, upload.array('documents', 5), uploadLeadDocuments);
 
 router.post("/update-delay-reason", authMiddleware, updateServiceDelayReason);
 
@@ -159,47 +133,12 @@ router.post("/complete-l1-review", async (req, res) => {
 		}
 
 		await customer.save();
-
-		// Send notification to the original employee
-		if (employee.email) {
-			try {
-				await sendZeptoMail({
-					to: employee.email,
-					subject: `Order Review ${decision === 'approved' ? 'Approved' : 'Needs Revision'}`,
-					html: `
-						<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-							<div style="background: ${decision === 'approved' ? '#e8f5e9' : '#fffde7'}; padding: 20px; border-radius: 5px 5px 0 0; border-left: 4px solid ${decision === 'approved' ? '#43a047' : '#ffb300'};">
-								<h2 style="color: ${decision === 'approved' ? '#388e3c' : '#fbc02d'}; margin: 0;">Order #${orderId} ${decision === 'approved' ? 'Approved' : 'Needs Revision'}</h2>
-							</div>
-							<div style="padding: 20px; background: #f8f9fa;">
-								<p>Hello ${employee.name},</p>
-								<p>The order <strong>#${orderId}</strong> has been <strong>${decision === 'approved' ? 'approved' : 'sent back for revision'}</strong> by your L1 reviewer.</p>
-								${decision === 'approved' ? '' : '<p style="color:#f57c00;">Please check the order and make necessary revisions.</p>'}
-								<p style="margin-top: 30px; color: #888;">Best regards,<br>Finshelter Team</p>
-							</div>
-						</div>
-					`
-				});
-			} catch (emailError) {
-				console.error("Error sending notification email:", emailError);
-				// Continue execution even if email fails
-			}
-		}
-
-		res.json({
-			success: true,
-			message: `Order ${decision === 'approved' ? 'approved' : 'sent back for revision'} successfully`
-		});
-
-	} catch (error) {
-		console.error("Error completing L1 review:", error);
-		res.status(500).json({
-			success: false,
-			message: "Error completing review",
-			error: error.message
-		});
+	}
+	catch (error) {
+		res.status(500).json({ success: false, message: "Error completing L1 review" });
 	}
 });
+
 
 router.post("/send-for-l1-review", sendOrderForL1Review);
 
@@ -226,31 +165,6 @@ router.get("/profile", async (req, res) => {
 			success: false,
 			message: "Error fetching profile"
 		});
-	}
-});
-
-// Add route for employee to view documents
-router.get('/documents/:filename', (req, res) => {
-	try {
-		const filename = req.params.filename;
-		// Search in common upload paths
-		const possiblePaths = [
-			path.join(__dirname, '../uploads', filename),
-			// Add other possible paths where documents might be stored
-		];
-		
-		// Find the first path that exists
-		for (const filePath of possiblePaths) {
-			if (fs.existsSync(filePath)) {
-				return res.sendFile(filePath);
-			}
-		}
-		
-		// If file not found
-		res.status(404).send('Document not found');
-	} catch (error) {
-		console.error('Error serving document:', error);
-		res.status(500).send('Error serving document');
 	}
 });
 
